@@ -1,0 +1,19 @@
+{
+  "name": "yield-nsp",
+  "version": "0.0.1",
+  "description": "Node.JS Server Pages - Server-Side Template Engine for Yield CMS",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yield-cms/yield-nsp.git"
+  },
+  "author": "Alexander Sychev <shurik.shurik.1993@yandex.ru>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/yield-cms/yield-nsp/issues"
+  },
+  "homepage": "https://github.com/yield-cms/yield-nsp#readme",
+  "dependencies": {
+    "glob": "^7.0.3"
+  }
+}
