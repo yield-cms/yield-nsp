@@ -1,6 +1,7 @@
 import glob = require('glob');
 import path = require('path');
 import fs = require('fs');
+import Renderer = require('./renderer');
 
 /**
  * @private
@@ -50,11 +51,7 @@ let build = function(directory : string) : Promise<any> {
 		});
 };
 
-let using = function() {
-
-};
-
 export = {
 	build : build,
-	using: using
+	Renderer: Renderer
 };
