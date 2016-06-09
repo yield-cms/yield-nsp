@@ -2,9 +2,29 @@ import glob = require('glob');
 import path = require('path');
 import fs = require('fs');
 import Renderer = require('./renderer');
+import namespacing = require('./namespacing');
 
 /**
+ * Raw templates files paths array
  * @private
+ * @type {string[]}
+ */
+let _rawPaths : string[] = [];
+
+/**
+ * Raw templates contents array
+ * @private
+ * @type {string[]}
+ */
+let _rawContents : string[] = [];
+
+/**
+ * Root scope object
+ * @type {Object}
+ */
+let _rootScope : Object = {};
+
+/**
  * @param {string} directory - root directory of templates
  * @returns {Promise}
  */

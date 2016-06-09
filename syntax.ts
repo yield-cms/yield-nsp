@@ -31,11 +31,22 @@ class SyntaxParser {
 		rendererMatches = this._stringToParse.match(rendererRegExp);
 		endRendererMatches = this._stringToParse.match(endRendererRegExp);
 
-		rendererMatches.forEach(function(rendererMatch) {
-		}, this);
+		endRendererMatches.forEach(function(rendererMatch : string) {
+			this._stringToParse =
+				this._stringToParse.replace(rendererMatch, '}');
+		});
+
+		rendererMatches.forEach(this._rendererMatchToClass, this);
 
 		return this;
 	}
+
+	/**
+	 * Convert
+	 */
+	private _rendererMatchToClass(rendererMatch : string) {
+
+	};
 
 	/**
 	 * Convert "template" directives to JS class expressions
