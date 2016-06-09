@@ -1,77 +1,41 @@
 import glob = require('glob');
 import path = require('path');
 import fs = require('fs');
-import Renderer = require('./renderer');
 import namespacing = require('./namespacing');
 
 /**
- * Raw templates files paths array
- * @private
- * @type {string[]}
- */
-let _rawPaths : string[] = [];
-
-/**
- * Raw templates contents array
- * @private
- * @type {string[]}
- */
-let _rawContents : string[] = [];
-
-/**
- * Root scope object
- * @type {Object}
- */
-let _rootScope : Object = {};
-
-/**
+ * Load and build templates hierarhy from directory
+ * and store it in scope object
  * @param {string} directory - root directory of templates
- * @returns {Promise}
+ * @return {Object} templates tree
  */
-let _getFiles = function(directory : string) : Promise<string[]> {
-	return new Promise(function(resolve, reject) {
-		glob(path.join(directory, '/**/*.nsp'), function(error, files) {
-			if (error) {
-				reject(error);
-			} else {
-				resolve(files);
-			};
-		});
-	});
-};
+function compileDir(directory : string) : Object {
+	let result : Object = {},
+		rawPaths : string[] = null,
+		rawContents : string[] = null,
+		dirsToNamespacing : string[] = null;
 
-/**
- * Compile .NSP-file to JavaScript
- * @private
- * @param {string} file
- * @returns {Promise}
- */
-let _compileToJS = function(file : string) : Promise<string> {
-	return new Promise(function(resolve, reject) {
-		fs.readFile(file, function(error, data) {
-			if (error) {
-				reject(error);
-			} else {
-				resolve(data);
-			}
-		});
+	rawPaths = glob.sync(path.join(directory, '/**/*.nsp'));
+	rawPaths.forEach(function(rawPath) {
+		rawContents.push(
+			fs.readFileSync(rawPath).toString()
+		);
 	});
-};
 
-/**
- * Build templates files
- * @param {string} directory - root directory of your templates
- * @return {Promise}
- */
-let build = function(directory : string) : Promise<any> {
-	return _getFiles(directory)
-		.then(function(files) {
-			let compilePromises : Promise<string>[] = files.map(_compileToJS);
-			return Promise.all(compilePromises);
-		});
-};
+	dirsToNamespacing = rawPaths.map(function(rawPath) {
+		let newPath : string = path.parse(rawPath).dir;
+		newPath = rawPath.replace(directory, '');
+		if (newPath.charAt(0) === path.sep) {
+			newPath = newPath.substr(1);
+		}
+		return newPath;
+	});
+
+	namespacing(dirsToNamespacing, result);
+
+	return result;
+}
 
 export = {
-	build : build,
-	Renderer: Renderer
+	compileDir: compileDir
 };
