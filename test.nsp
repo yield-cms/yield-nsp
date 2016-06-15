@@ -1,0 +1,6 @@
+#using blog.nMainPage.bHeader as Header
+#renderer HelloWord extends Header
+    #template main arguments
+        <??>
+    #endtemplate
+#endrenderer
