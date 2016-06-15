@@ -1,6 +1,5 @@
-#using blog.nMainPage.bHeader as Header
-#renderer HelloWord extends Header
-    #template main arguments
-        <??>
-    #endtemplate
-#endrenderer
+<?nsp template HelloWorld ?>
+	<?nsp section main(data)?>
+		<h1>Hello, <?=data.name?>!</h1>
+	<?nsp endsection?>
+<?nsp endtemplate?>
